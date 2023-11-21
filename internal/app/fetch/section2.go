@@ -1,11 +1,9 @@
-package app
+package fetch
 
 import (
 	"context"
 	"log"
 	"net/http"
-	"strings"
-	"time"
 
 	"github.com/Nansky/custom-fetch/helper"
 	"github.com/Nansky/custom-fetch/pkg/client"
@@ -40,7 +38,6 @@ func (fc FetchCli) FetchPageMetadata(ctx context.Context, url string) {
 	}
 
 	// Print required Metadata
-	log.Println("site:", strings.Split(url, "//")[1])
-	client.GetPageTotalInfo(doc)
-	log.Println("last_fetch:", time.Now().Format(time.RFC1123))
+	client.ShowPageMetadata(doc, url)
+
 }

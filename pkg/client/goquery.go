@@ -3,7 +3,9 @@ package client
 import (
 	"log"
 	"net/http"
+	"strings"
 	"sync"
+	"time"
 
 	"github.com/Nansky/custom-fetch/helper"
 
@@ -11,10 +13,12 @@ import (
 	"github.com/yosssi/gohtml"
 )
 
-// GetPageTotalInfo get total page information on Images and Links
-func GetPageTotalInfo(doc *goquery.Document) {
+// ShowPageMetadata get metadata information on Images and Links
+func ShowPageMetadata(doc *goquery.Document, url string) {
+	log.Println("site:", strings.Split(url, "//")[1])
 	log.Println("num_links", doc.Find("a").Length())
 	log.Println("images:", doc.Find("img").Length())
+	log.Println("last_fetch:", time.Now().Format(time.RFC1123))
 }
 
 func WriteToHtmlFile(c *Client, url string, wg *sync.WaitGroup, sig chan struct{}) {

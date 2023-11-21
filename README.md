@@ -1,6 +1,6 @@
 # custom-fetch
 ## _Overview_
-custom fetch is a simple web scrapping built using Go (Golang). It is based on Go's [net/html](https://pkg.go.dev/net/http) package in Go to get the response from destination urls and additional [goquery](https://github.com/PuerkitoBio/goquery) package to read and inspect the page elements. 
+custom-fetch is a simple web scrapping built using Go (Golang). It is based on Go's [net/html](https://pkg.go.dev/net/http) package in Go to get the response from destination urls and additional [goquery](https://github.com/PuerkitoBio/goquery) package to read and inspect the page elements. Also, it's using [Cobra](https://github.com/spf13/cobra) to provide a simple interface to create powerful modern CLI interfaces.
 
 ## _Table of Contents_
 - [Features](#features)
@@ -8,20 +8,21 @@ custom fetch is a simple web scrapping built using Go (Golang). It is based on G
 - [Examples](#examples)
 
 ## Features
-There are 2 main features :
+There are 3 features :
 - Fetch and store contents of fetched url to html file (.html)
 - Fetch metadata of fetched URL
+- Access mirror page static html file from browser
 
 ## Installation
 Just Clone this repository to your local directory, and run main file using go command `go run main.go`, assuming you already setup Go environment. To avoid any platform environment differences, we can use docker instead to execute this program. First, we need to build the image with `docker build` command.
 
 ```sh
-$ docker build -t <your-iamge-name> .
+$ docker build -t customfetch .
 ```
 check list of all local image using `docker image ls` command, and you will see yout <your-image-name> created.
 after that, run and access the newly created image using run command
 ```sh
-$ docker run -it <your-created-image> 
+$ docker run -p 4040:4040 -d customfetch
 ```
 if success, then you will on Terminal command line inside running container
 ```sh
@@ -32,7 +33,7 @@ if success, then you will on Terminal command line inside running container
 ### Help command 
 you can check help command for explanation and its available parameter by adding command `-h` or `--help`
 ```sh
-/app # ./fetch --help
+/app # ./customfetch --help
 ``` 
 this will shows output
 
@@ -42,9 +43,9 @@ this will shows output
 Only URLs with valid format can be fetched. 
 command : 
 ```sh
-/app # ./fetch https://www.mangasaki.com https://www.coldplay.com
+/app # ./customfetch https://www.mangasaki.com https://www.coldplay.com
 ```
-above sample is fetched 2 urls and stored its content into 2 html file. 
+above sample is fetched 2 urls and stored its content into 2 html files inside `mirrored_site` directory. 
 [![JnkLB29.md.png](https://iili.io/JnkLB29.md.png)](https://freeimage.host/i/JnkLB29)
 if one of URL in invalid, then fetch will not be processed. 
 
@@ -57,9 +58,13 @@ Fetch url metadata can be executed using `--metadata` or `-m` param. It will sho
 
 command : 
 ```sh
-/app # ./fetch --metadata https://www.mangasaki.com
+/app # ./customfetch fetch --metadata https://www.mangasaki.com
 ```
 
 as it shows output below :
+[![JnmePC7.md.png](https://iili.io/JnmePC7.md.png)](https://freeimage.host/i/JnmePC7)
 
-[![JnkyczX.md.png](https://iili.io/JnkyczX.md.png)](https://freeimage.host/i/JnkyczX)
+### Access Mirror page from browser
+After fetched the url, it will be persistently stored in `mirrored_site` directory and it can be accessed by browser with url for example `localhost:4040/?url=https://www.mangasaki.com` as shown at image below.
+
+[![JnmkR8G.md.png](https://iili.io/JnmkR8G.md.png)](https://freeimage.host/i/JnmkR8G)

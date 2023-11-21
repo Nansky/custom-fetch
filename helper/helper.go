@@ -25,7 +25,7 @@ func SetFilenameFromURL(url string) string {
 }
 
 func SaveToHtmlFile(filename, content string) {
-	file, err := os.Create(filename)
+	file, err := os.Create(MirroredDir + filename)
 	if err != nil {
 		log.Fatal(err)
 		return
